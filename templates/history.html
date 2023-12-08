@@ -33,15 +33,33 @@ History
             const selectedSessionDuration = document.getElementById("selected-session-duration")
             const selectedAchieved = document.getElementById("selected-achieved");
 
+            const hhmm = (mins) => {
+
+                let out_hrs = Math.floor(mins / 60);
+                let out_mins = mins - out_hrs * 60;
+    
+                formatted_hrs = String(out_hrs);
+                formatted_mins = String(out_mins);
+    
+                if (out_hrs < 10) {
+                    formatted_hrs = "0" + formatted_hrs;
+                }
+                if (out_mins < 10) {
+                    formatted_mins = "0" + formatted_mins;
+                }
+
+                return formatted_hrs + ":" + formatted_mins;
+            }
+
             let selectedSession = sessionSelect.selectedIndex;
             let selectedRow = rows[selectedSession];
 
             selectedTitle.textContent = selectedRow.title;
             selectedStartTimestamp.textContent = selectedRow.start_timestamp;
             selectedEndTimestamp.textContent = selectedRow.end_timestamp;
-            selectedGoalDuration.textContent = selectedRow.goal_duration;
+            selectedGoalDuration.textContent = hhmm(selectedRow.goal_duration);
             selectedGoals.textContent = selectedRow.goals;
-            selectedSessionDuration.textContent = selectedRow.session_duration;
+            selectedSessionDuration.textContent = hhmm(selectedRow.session_duration);
             selectedAchieved.textContent = selectedRow.achieved;
 
             sessionSelect.addEventListener("change", function() {
@@ -52,9 +70,9 @@ History
                 selectedTitle.textContent = selectedRow.title;
                 selectedStartTimestamp.textContent = selectedRow.start_timestamp;
                 selectedEndTimestamp.textContent = selectedRow.end_timestamp;
-                selectedGoalDuration.textContent = selectedRow.goal_duration;
+                selectedGoalDuration.textContent = hhmm(selectedRow.goal_duration);
                 selectedGoals.textContent = selectedRow.goals;
-                selectedSessionDuration.textContent = selectedRow.session_duration;
+                selectedSessionDuration.textContent = hhmm(selectedRow.session_duration);
                 selectedAchieved.textContent = selectedRow.achieved;
             });
         });
@@ -79,13 +97,13 @@ History
                 <div class="card-body text-start p-0">
                     <div class="goals p-3">
                         <h4 class="card-title">Goals: </h4>
-                        <p class="card-text">Goal duration: <span id="selected-goal-duration">...</span> minutes</p>
+                        <p class="card-text">Goal duration: <span id="selected-goal-duration">...</span></p>
                         <p class="card-text" id="selected-goals"></p>
                     </div>
                     <hr style="margin: 0px;">
                     <div class="achieved p-3">
                         <h4 class="card-title">Achieved: </h4>
-                        <p class="card-text">Duration: <span id="selected-session-duration">...</span> minutes</p>
+                        <p class="card-text">Duration: <span id="selected-session-duration">...</span></p>
                         <p class="card-text" id="selected-achieved"></p>
                     </div>
                 </div>

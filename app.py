@@ -176,7 +176,7 @@ def practice():
     if request.method == "POST":
         hours = request.form.get("hours")
         mins = request.form.get("minutes")
-        goals = request.form.get("goals")
+        goals = request.form.get("goals").strip()
         if not hours or not mins or not goals:
             return render_template("error.html", error_msg="403: All fields are required")
         hours = int(hours)
@@ -213,7 +213,7 @@ def history():
         end_timestamp = request.form.get("end-timestamp")
         session_title = request.form.get("session-title")
         session_duration = request.form.get("session-duration")
-        achieved = request.form.get("achieved")
+        achieved = request.form.get("achieved").strip()
 
         # Insert summary into db
 
@@ -234,7 +234,7 @@ def history():
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         # goals_id | title | end_timestamp | session_duration | achieved | id | user_id | start_timestamp | goal_duration | goals
-        cur.execute("SELECT * FROM summaries JOIN goals ON summaries.goals_id = goals.id WHERE user_id = ?", (session["user_id"],))
+        cur.execute("SELECT * FROM summaries JOIN goals ON summaries.goals_id = goals.id WHERE user_id = ? ORDER BY goals.id DESC", (session["user_id"],))
         rows = cur.fetchall()
         con.close()
         total_mins, total_count = 0, 0
