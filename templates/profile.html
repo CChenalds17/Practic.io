@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block main %}
+
+    <div class="row mx-3">
+        <div class="col-auto align-middle my-auto">
+            <p>Username:</p>
+        </div>
+        <div class="col-auto align-middle my-auto">
+            <p>{{ username }}</p>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="col-auto align-middle my-auto">
+                <p class="my-auto">Log Out:</p>
+        </div>
+        <div class="col-auto align-middle my-auto">
+            <form action="/logout" method="post">
+                <button class="btn btn-primary" id="logout" name="logout" type="submit">Log Out</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

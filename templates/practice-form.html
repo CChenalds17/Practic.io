@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<script src="static/practice-form.js"></script>
+{% endblock %}
+
+{% block title %}
+Practice
+{% endblock %}
+
+{% block main %}
+
+    <div class="row">
+        <h2>Practice Goals:</h2>
+    </div>
+    <form action="/practice" method="post">
+        <div class="row text-start mx-3">
+            <div class="col-auto">
+                <h4>Duration (hh:mm): </h4>
+            </div>
+            <div class="col-auto">
+                <div>
+                        <input class="num-selector" id="hours" name="hours" placeholder="00" value="00" type="number" max="23" min="0" required onClick="this.select();">
+                        :
+                        <input class="num-selector" id="minutes" name="minutes" placeholder="00" value="00" type="number" max="60" min="0" required onClick="this.select();">
+                </div>
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-auto text-start">
+                <h4>Goals:</h4>
+                <textarea rows="8" cols="240" id="goals" name="goals" placeholder="Practice Goals..." wrap="soft" required></textarea>
+            </div>
+        </div>
+        <button id="start-practicing" name="start-practicing" class="btn btn-primary my-3" type="submit">Start Practicing!</button>
+    </form>
+
+{% endblock %}

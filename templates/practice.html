@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<script src="static/practice.js"></script>
+{% endblock %}
+
+{% block title %}
+Practice
+{% endblock %}
+
+{% block main %}
+
+    <div class="row">
+        <div class="col-auto"></div>
+        <div class="col-md scales">
+            <div class="p-3">
+                <h4 class="my-1">Random Scale Generator</h4>
+                <div class="my-2">
+                    <label for="scale-type-input"><h5>Major/Minor:</h5></label>
+                    <select class="form-select-sm w-auto mx-2" id="scale-type-input" name="scale-type-input">
+                        <option value="major">Major</option>
+                        <option value="minor">Minor</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="align-middle my-auto" for="group-enharmonics"><h5>Group Enharmonics?</h5></label><input id="group-enharmonics" name="group-enharmonics" checked type="checkbox">
+                </div>
+                <button class="btn btn-primary my-2" id="generate-btn" name="generate-btn" type="button">Generate</button>
+                <h4 style="margin-bottom: 0px; margin-top: 5px;">Scale: <span id="scale-letter" class="scale">...</span><span id="scale-type" class="scale"></span></h4>
+            </div>
+        </div>
+        <div class="col-auto"></div>
+        <div class="col-md metronome">
+            <div class="p-3">
+                <h4>Metronome</h4>
+                <p>BPM: <span id="bpm-label"></span> bpm</p>
+                <input class="slider" id="bpm" name="bpm" min="40" max="200" value="60" type="range">
+                <div class="row">
+                    <div>
+                        <button class="btn btn-primary" id="play-btn" name="play-btn" type="button">Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto"></div>
+    </div>
+
+    <!-- End Session Button -->
+    <div class="row align-items-start">
+        <div class="col-md">
+            <div class="d-flex flex-column align-items-end">
+                <p class="duration-stopwatch" style="margin-top: 20px;">
+                    <span id="hours-tens">0</span><span id="hours-ones">0</span>:<span id="mins-tens">0</span><span id="mins-ones">0</span>:<span id="secs-tens">0</span><span id="secs-ones">0</span>
+                </p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#summary" id="end-session" name="end-session" type="button" style="align-self: flex-end;">End Session</button>
+            </div>
+        </div>
+        <div class="col-auto"></div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="summary" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="summary" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="/history" method="post">
+                    <input id="goals-id" name="goals-id" type="hidden" value="{{ goals_id }}">
+                    <input id="end-timestamp" name="end-timestamp" type="hidden">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Summary:</h3>
+                        <button id="close-modal" name="close-modal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start mx-1">
+                        <div>
+                            <h4 class="px-2" id="title" contenteditable="true">{{ title }}</h4>
+                            <input id="session-title" name="session-title" type="hidden">
+                        </div>
+                        <div>
+                            <h5>Time practiced: <span id="time-practiced">...</span></h5>
+                            <input id="session-duration" name="session-duration" type="hidden">
+                        </div>
+                        <div>
+                            <label for="achieved"><h5>Achieved:</h5></label>
+                            <textarea class="px-2" rows="10" cols="100" id="achieved" name="achieved" placeholder="Achieved" wrap="soft" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="back" name="back">Back to Practicing</button>
+                        <button id="finalize" name="finalize" type="submit" class="btn btn-primary">Finalize</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}
+History
+{% endblock %}
+
+{% block main %}
+
+    <div class="row mx-3">
+        <div class="col-auto">
+            <h4>Total Time Practiced: {{ total_time }}</h4>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="col-auto">
+            <h4>Average Practice Time: {{ avg_time }}</h4>
+        </div>
+    </div>
+    <hr class="mx-3">
+    <!-- Session info -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const rows = {{ rows | tojson | safe }};
+
+            const sessionSelect = document.getElementById("session-select");
+            const selectedTitle = document.getElementById("selected-title");
+            const selectedStartTimestamp = document.getElementById("selected-start-timestamp");
+            const selectedEndTimestamp = document.getElementById("selected-end-timestamp")
+            const selectedGoalDuration = document.getElementById("selected-goal-duration");
+            const selectedGoals = document.getElementById("selected-goals");
+            const selectedSessionDuration = document.getElementById("selected-session-duration")
+            const selectedAchieved = document.getElementById("selected-achieved");
+
+            let selectedSession = sessionSelect.selectedIndex;
+            let selectedRow = rows[selectedSession];
+
+            selectedTitle.textContent = selectedRow.title;
+            selectedStartTimestamp.textContent = selectedRow.start_timestamp;
+            selectedEndTimestamp.textContent = selectedRow.end_timestamp;
+            selectedGoalDuration.textContent = selectedRow.goal_duration;
+            selectedGoals.textContent = selectedRow.goals;
+            selectedSessionDuration.textContent = selectedRow.session_duration;
+            selectedAchieved.textContent = selectedRow.achieved;
+
+            sessionSelect.addEventListener("change", function() {
+                selectedSession = sessionSelect.selectedIndex;
+                selectedRow = rows[selectedSession];
+                selectedTitle.textContent = selectedRow.title;
+                
+                selectedTitle.textContent = selectedRow.title;
+                selectedStartTimestamp.textContent = selectedRow.start_timestamp;
+                selectedEndTimestamp.textContent = selectedRow.end_timestamp;
+                selectedGoalDuration.textContent = selectedRow.goal_duration;
+                selectedGoals.textContent = selectedRow.goals;
+                selectedSessionDuration.textContent = selectedRow.session_duration;
+                selectedAchieved.textContent = selectedRow.achieved;
+            });
+        });
+    </script>
+
+    <div class="row mx-3">
+        <div class="col-auto mb-3 text-start">
+            <label for="session-select"><h5>Select Session:</h5></label>
+            <select class="form-select" name="session-select" id="session-select">
+                {% for row in rows %}
+                    <option id="selected-session" value="{{ row.title }}">{{ row.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="col-lg">
+            <div class="card">
+                <div class="card-header p-2">
+                    <h3><span id="selected-title"></span></h3>
+                </div>
+                <div class="card-body text-start p-0">
+                    <div class="goals p-3">
+                        <h4 class="card-title">Goals: </h4>
+                        <p class="card-text">Goal duration: <span id="selected-goal-duration">...</span> minutes</p>
+                        <p class="card-text" id="selected-goals"></p>
+                    </div>
+                    <hr style="margin: 0px;">
+                    <div class="achieved p-3">
+                        <h4 class="card-title">Achieved: </h4>
+                        <p class="card-text">Duration: <span id="selected-session-duration">...</span> minutes</p>
+                        <p class="card-text" id="selected-achieved"></p>
+                    </div>
+                </div>
+                <div class="card-footer text-start">
+                    <p>Started: <span id="selected-start-timestamp">...</span></p>
+                    <p>Finished: <span id="selected-end-timestamp">...</span></p>
+                </div>
+             </div>
+        </div>
+    </div>
+
+
+{% endblock %}
